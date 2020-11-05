@@ -4,7 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+/*
+	author: jeff ayllon
+	date: November 2, 2020
+*/
 @Entity
 public class Product {
 	@Id
