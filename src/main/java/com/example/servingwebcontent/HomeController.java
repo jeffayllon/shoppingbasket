@@ -9,7 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+/*
+	author: jeff ayllon
+	date: November 2, 2020
+*/
 @Controller
 public class HomeController {
 
@@ -19,18 +22,22 @@ public class HomeController {
 	@Autowired
 	private BasketRepository basketRepository;
 	
-	@GetMapping("/home")
-	public String home(Model model, HttpSession session) {
-		List<Product> products = productRepository.findAll();
-		
-		List<Basket> baskets = basketRepository.findBySessionid(session.getId());
-		
+	public int getTotal(List<Basket> baskets) {
 		int total = 0;
 		if(baskets.size() > 0) {
 			for(Basket b: baskets) {
 				total += b.getPrice();
 			}
 		}
+		return total;
+	}
+	@GetMapping("/home")
+	public String home(Model model, HttpSession session) {
+		List<Product> products = productRepository.findAll();
+		
+		List<Basket> baskets = basketRepository.findBySessionid(session.getId());
+		
+		int total = getTotal(baskets);
 		
 		model.addAttribute("products", products);
 		model.addAttribute("baskets", baskets);
@@ -53,26 +60,11 @@ public class HomeController {
 		List<Product> products = productRepository.findAll();
 		List<Basket> baskets = basketRepository.findBySessionid(session.getId());
 		
-		int total = 0;
-		if(baskets.size() > 0) {
-			for(Basket b: baskets) {
-				total += b.getPrice();
-			}
-		}
-		
+		int total = getTotal(baskets);		
 		
 		model.addAttribute("products", products);
 		model.addAttribute("baskets", baskets);
 		model.addAttribute("total", total);
-		
-		System.out.println("/add");
-		System.out.println("sessionid: " + session.getId());
-		System.out.println("productid: " + productid);
-		System.out.println("imagessrc: " + imagessrc);
-		System.out.println("details: " + details);
-		System.out.println("price: " + price);
-		
-		
 		
 		return "home";
 	}
@@ -86,12 +78,7 @@ public class HomeController {
 		List<Product> products = productRepository.findAll();
 		List<Basket> baskets = basketRepository.findBySessionid(session.getId());
 		
-		int total = 0;
-		if(baskets.size() > 0) {
-			for(Basket b: baskets) {
-				total += b.getPrice();
-			}
-		}
+		int total = getTotal(baskets);
 		
 		model.addAttribute("products", products);
 		model.addAttribute("baskets", baskets);
