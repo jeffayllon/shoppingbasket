@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Menu</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" rel="stylesheet">
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css/styles.css" >
+    
+</head>
+<body>	
+    <section class="section-pagetop bg">
+        <div class="container">
+            <h2 class="title-page pt-3">Shopping Basket</h2>
+        </div>
+    </section>
+
+    <section class="section-content ptb-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <figure class="card card-product-grid" th:each="p : ${products}">
+	                        <div class="img-wrap">                            
+	                            <img th:src="${'img/' + p.image}">
+	                        </div> <!-- img-wrap.// -->
+	                        <figcaption class="info-wrap">
+	                            <div class="fix-height">
+	                                <p class="title" th:text="${p.details}"></p>
+	                                <div class="price-wrap mt-2">
+	                                    <span class="price" th:text="${'PHP ' + p.price}"></span>                                    
+	                                </div> 
+	                            </div>
+	                            <form action="/add" method="get">
+	                            	<input type="hidden" name="productid" th:value="${p.id}" />
+	                            	<input type="hidden" name="imagessrc" th:value="${p.image}" />
+	                            	<input type="hidden" name="details" th:value="${p.details}" />
+	                            	<input type="hidden" name="price" th:value="${p.price}" />
+	                            	<input type="submit" class="btn btn-primary" value="Add to basket"/>
+	                        	</form>
+	                        </figcaption>
+                    </figure>       
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <table class="table table-borderless table-shopping-cart">
+                            <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col" width="200">Product</th>
+                                    <th scope="col" width="90">Quantity</th>
+                                    <th scope="col" width="200">Price</th>
+                                    <th scope="col" class="text-right" width="100"> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="b : ${baskets}">
+                                    <td>
+                                        <figure class="itemside">
+                                            <div class="aside"><img th:src="${'img/' + b.image}" class="img-sm"></div>                                        
+                                        </figure>
+                                        <p class="title text-dark" h:text="${b.details}"></p>
+                                    </td>
+                                    <td>
+                                    	<p class="title text-dark">1</p>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap">
+                                            <var class="price" th:text="${'PHP ' + b.price}"></var>
+                                        </div>
+                                    </td>
+                                    <td class="text-right"> 
+                                    	<form action="/remove" method="get">
+                                    		<input type="hidden" name="basketid" th:value="${b.id}">
+                                    		<input type="submit" class="btn btn-light" value="Remove">
+                                    	</form>	                                   
+	                               </td>                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>                  
+                </div>
+                
+                <aside class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <dl class="dlist-align">
+                              <dt>Total price:</dt>
+                              <dd class="text-right" th:text="${'PHP ' + total}"></dd>
+                            </dl>
+                            <dl class="dlist-align">
+                              <dt>Total:</dt>
+                              <dd class="text-right h5"><strong th:text="${'PHP ' + total}"></strong></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </aside>             
+            </div>
+            
+            
+        
+    </section>
+    
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>    
+</html>
